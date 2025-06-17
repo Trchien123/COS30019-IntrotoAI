@@ -8,8 +8,6 @@ start is a tuple (x, y) with x as column and y as row, and walls is a set of tup
 ========= Step 1 =========
 Import necessary libraries
 '''
-from colorama import Fore, init
-init(autoreset=True)
 from frontier import Stack, Queue, PriorityQueue
 from utils import *
 from node import Node
@@ -139,7 +137,7 @@ class Maze:
 
             if not goal_found:
                 self.time_taken = time.time() - start_time
-                print(Fore.RED + 'No Goals Found!!')
+                print('No Goals Found!!')
                 return False
             
         self.time_taken = time.time() - start_time
@@ -228,7 +226,7 @@ class Maze:
 
             if not goal_found:
                 self.time_taken = time.time() - start_time
-                print(Fore.RED + 'No Goals Found!!')
+                print('No Goals Found!!')
                 return False
 
         self.time_taken = time.time() - start_time
@@ -282,7 +280,7 @@ class Maze:
                 current_start = found_goal
             else:
                 self.time_taken = time.time() - start_time
-                print(Fore.RED + 'No Goals Found!!')
+                print('No Goals Found!!')
                 return False
 
         self.time_taken = time.time() - start_time
