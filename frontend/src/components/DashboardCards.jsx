@@ -47,7 +47,7 @@ const MazeSolver = () => {
   useEffect(() => {
     const checkBackend = async () => {
       try {
-        const response = await fetch('http://localhost:5000/health');
+        const response = await fetch('https://maze-searching-visualizer-backend.onrender.com/health');
         setBackendStatus(response.ok ? 'connected' : 'error');
       } catch {
         setBackendStatus('disconnected');
