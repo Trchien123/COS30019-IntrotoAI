@@ -187,7 +187,7 @@ const GuideLine = () => {
                             </div>
 
                             <div className="bg-lime-50 rounded-xl p-6 border-l-4 border-lime-400">
-                                <h4 className="font-semibold text-lime-800 mb-2">Iterative Deepening Depth-First Search</h4>
+                                <h4 className="font-semibold text-lime-800 mb-2">Iterative Deepening A*</h4>
                                 <p className="text-lime-700">
                                     Iterative Deepening A* (IDA*) is a graph traversal and pathfinding algorithm that combines the depth-first search approach of Iterative Deepening Search (IDS) with the heuristic guidance of the A* search algorithm
                                 </p>
