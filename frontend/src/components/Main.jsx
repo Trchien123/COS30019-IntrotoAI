@@ -7,7 +7,7 @@ import ReadMe from './Readme';
 import SideMenu from './SideMenu';
 
 const Main = () => {
-    const [selectedView, setSelectedView] = useState('Dashboard');
+    const [selectedView, setSelectedView] = useState('GuideLine');
     const [menuOpen, setMenuOpen] = useState(true);
     
     const renderContent = () => {
