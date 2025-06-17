@@ -489,13 +489,11 @@ const MazeSolver = () => {
               </div>
             )}
 
-            <div className="bg-gray-100 p-4 rounded-lg mb-4 shadow-inner">
-              <div
-                className="grid gap-0.5 mx-auto max-w-full"
-                style={{
+            <div className="bg-gray-100 p-4 rounded-lg mb-4 shadow-inner max-h-[70vh] overflow-auto">
+              <div 
+                className="grid gap-0.5 mx-auto w-full"
+                style={{ 
                   gridTemplateColumns: `repeat(${config.cols}, minmax(0, 1fr))`,
-                  maxHeight: '70vh', // prevent it from going beyond screen
-                  width: '100%',
                 }}
               >
                 {maze.map((cell, i) => {
@@ -504,14 +502,12 @@ const MazeSolver = () => {
                   const isGoal = cell?.type === 'goal';
                   const isExplored = visualization.explored.has(i);
                   const isPath = visualization.path.includes(i);
-                  const isSelectedGoal = visualization.selectedGoal !== null &&
-                    isGoal &&
+                  const isSelectedGoal = visualization.selectedGoal !== null && 
+                    isGoal && 
                     goals.findIndex(([gx, gy]) => gx === x && gy === y) === visualization.selectedGoal;
-                  const cellDepth = visualization.explored.get(i);
 
-                  // Enhanced cell styling with proper priority
                   let cellClass = 'aspect-square border border-gray-300 cursor-pointer transition-all duration-300 relative overflow-hidden ';
-
+                  
                   if (isStart) {
                     cellClass += 'bg-green-500 border-2 border-green-700 shadow-lg z-30';
                   } else if (isSelectedGoal) {
@@ -527,7 +523,7 @@ const MazeSolver = () => {
                   } else {
                     cellClass += 'bg-gray-50 hover:bg-gray-100 border-gray-200';
                   }
-
+                  
                   return (
                     <div
                       key={i}
@@ -535,7 +531,6 @@ const MazeSolver = () => {
                       onClick={() => handleCellClick(i)}
                       style={{ minWidth: '12px', minHeight: '12px' }}
                     >
-                      {/* Start marker - always visible with highest priority */}
                       {isStart && (
                         <div className="absolute inset-0 flex items-center justify-center z-40">
                           <div className="w-4 h-4 bg-white rounded-full shadow-lg border-2 border-green-800 flex items-center justify-center">
@@ -543,8 +538,6 @@ const MazeSolver = () => {
                           </div>
                         </div>
                       )}
-
-                      {/* Goal marker - always visible with high priority */}
                       {isGoal && !isStart && (
                         <div className="absolute inset-0 flex items-center justify-center z-30">
                           <div className="w-4 h-4 bg-white rounded-full shadow-lg border-2 border-red-800 flex items-center justify-center">
@@ -552,8 +545,6 @@ const MazeSolver = () => {
                           </div>
                         </div>
                       )}
-
-                      {/* Path arrow indicator */}
                       {isPath && !isStart && !isGoal && (
                         <div className="absolute inset-0 flex items-center justify-center z-5">
                           <div className="w-2 h-2 bg-yellow-600 rounded-full animate-ping"></div>
@@ -564,6 +555,7 @@ const MazeSolver = () => {
                 })}
               </div>
             </div>
+
 
             <div className="flex flex-wrap gap-3 mb-4">
               <button onClick={handleNewMaze} disabled={isSearching}
