@@ -28,7 +28,7 @@ Next, we need to create an instance of FastAPI and configure CORS middleware.
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=['http://localhost:5173', 'http://localhost:3000'], # this is the origin of the frontend app
+    allow_origins=['https://maze-searching-visualizer.vercel.app/'], # this is the origin of the frontend app
     allow_credentials=True,
     allow_methods=['*'], # allow all methods (GET, POST, PUT, DELETE, etc.)
     allow_headers=['*'] # allow all headers
