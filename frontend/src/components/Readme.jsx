@@ -3,7 +3,7 @@ import { Github, ExternalLink, Code, Folder, Download, Mail } from 'lucide-react
 
 const ReadMe = () => {
   const repoStats = [
-    { label: 'Repository', value: 'intro-to-ai-Trchien123' },
+    { label: 'Repository', value: 'COS30019' },
     { label: 'Language', value: 'JavaScript/React/Python' },
     { label: 'Version', value: 'v1.0.0' }
   ];
@@ -26,7 +26,7 @@ const ReadMe = () => {
   ];
 
   const fileStructure = [
-    { name: 'intro-to-ai-Trchien123/', type: 'folder', desc: 'Source code directory' },
+    { name: 'COS30019/', type: 'folder', desc: 'Source code directory' },
     { name: '├── frontend/', type: 'folder', desc: 'Frontend' },
     { name: '│   ├── public', type: 'folder', desc: 'Public assets' },
     { name: '│   │   └── vite.svg', type: 'file', desc: 'Vite logo' },
@@ -75,7 +75,7 @@ const ReadMe = () => {
           <div className="flex flex-wrap gap-4 mb-6">
             {/* GitHub Link */}
             <a
-              href="https://github.com/Tristan-Lab-Swinburne/intro-to-ai-Trchien123"
+              href="https://github.com/Trchien123/COS30019.git"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors"
@@ -86,7 +86,7 @@ const ReadMe = () => {
 
             {/* Live Demo */}
             <a
-              href="https://your-demo-site.com"
+              href=""
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
@@ -97,7 +97,7 @@ const ReadMe = () => {
 
             {/* Download ZIP */}
             <a
-              href="https://github.com/Tristan-Lab-Swinburne/intro-to-ai-Trchien123/archive/refs/heads/main.zip"
+              href="https://github.com/Trchien123/COS30019.git"
               className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
               download
             >
@@ -168,7 +168,7 @@ const ReadMe = () => {
             <div>
               <h3 className="font-semibold text-gray-800 mb-2">Clone the repository:</h3>
               <div className="bg-gray-900 rounded-lg p-4 text-gray-300 font-mono text-sm">
-                git clone https://github.com/Tristan-Lab-Swinburne/intro-to-ai-Trchien123.git
+                git clone https://github.com/Trchien123/COS30019.git
               </div>
             </div>
             
@@ -176,13 +176,13 @@ const ReadMe = () => {
               <h3 className="font-semibold text-gray-800 mb-2">Install dependencies:</h3>
               <div className="bg-gray-900 rounded-lg p-4 text-gray-300 font-mono text-sm mb-2">
                 <div className='mb-3'>FRONTEND</div>
-                cd intro-to-ai-Trchien123<br />
+                cd COS30019<br />
                 cd frontend<br />
                 npm install
               </div>
               <div className="bg-gray-900 rounded-lg p-4 text-gray-300 font-mono text-sm">
                 <div className='mb-3'>BACKEND</div>
-                cd intro-to-ai-Trchien123<br />
+                cd COS30019<br />
                 cd backend<br />
                 npm install
               </div>
