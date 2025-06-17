@@ -11,9 +11,9 @@ const MazeSolver = () => {
   const [isSettingStart, setIsSettingStart] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [result, setResult] = useState(null);
-  const [visualization, setVisualization] = useState({ 
+  const [visualization, setVisualization] = useState({
     explored: new Map(),
-    path: [], 
+    path: [],
     selectedGoal: null,
     currentDepth: 0,
     maxDepth: 0,
@@ -154,9 +154,9 @@ const MazeSolver = () => {
       setUploadedFile(file.name);
       setShouldRegenerate(false);
       resetVisualization(true);
-      
+
       alert(`Maze loaded successfully! ${parsedGoals.length} goals found, start position set`);
-      
+
     } catch (error) {
       alert('Error reading file: ' + error.message);
     }
@@ -167,27 +167,27 @@ const MazeSolver = () => {
     const { rows, cols, numGoals } = config;
     const total = rows * cols;
     const mazeArray = Array(total).fill().map(() => ({ type: 'empty' }));
-    
+
     const wallCount = Math.floor(total * 0.15);
     const wallIndices = new Set();
     while (wallIndices.size < wallCount) {
       wallIndices.add(Math.floor(Math.random() * total));
     }
     wallIndices.forEach(i => mazeArray[i].type = 'wall');
-    
+
     const available = Array.from({ length: total }, (_, i) => i).filter(i => !wallIndices.has(i));
     const goalIndices = new Set();
     while (goalIndices.size < Math.min(numGoals, available.length)) {
       const rand = available[Math.floor(Math.random() * available.length)];
       if (!goalIndices.has(rand)) goalIndices.add(rand);
     }
-    
+
     const generatedGoals = [];
     goalIndices.forEach(i => {
       mazeArray[i].type = 'goal';
       generatedGoals.push(indexToCoord(i));
     });
-    
+
     setMaze(mazeArray);
     setGoals(generatedGoals);
     setShouldRegenerate(false);
@@ -203,9 +203,9 @@ const MazeSolver = () => {
 
   const resetVisualization = (preserveStart = false) => {
     setResult(null);
-    setVisualization({ 
-      explored: new Map(), 
-      path: [], 
+    setVisualization({
+      explored: new Map(),
+      path: [],
       selectedGoal: null,
       currentDepth: 0,
       maxDepth: 0,
@@ -236,7 +236,7 @@ const MazeSolver = () => {
   const animateVisualization = async (exploredNodes, pathNodes, isIterative = false) => {
     const speedMap = { slow: 150, normal: 75, fast: 30, instant: 0 };
     const delay = speedMap[config.speed];
-    
+
     if (isIterative) {
       // For iterative algorithms, group nodes by depth and animate depth by depth
       const nodesByDepth = new Map();
@@ -249,9 +249,9 @@ const MazeSolver = () => {
       });
 
       const maxDepth = Math.max(...nodesByDepth.keys());
-      
+
       for (let depth = 0; depth <= maxDepth; depth++) {
-        setVisualization(prev => ({ 
+        setVisualization(prev => ({
           ...prev,
           currentDepth: depth,
           maxDepth: maxDepth,
@@ -261,64 +261,64 @@ const MazeSolver = () => {
         // Clear and re-animate up to current depth
         const exploredAtDepth = new Map();
         let nodeIndex = 0;
-        
+
         for (let d = 0; d <= depth; d++) {
           const nodesAtThisDepth = nodesByDepth.get(d) || [];
           for (const [x, y] of nodesAtThisDepth) {
             const index = coordToIndex([x, y]);
             exploredAtDepth.set(index, d);
-            
-            setVisualization(prev => ({ 
-              ...prev, 
+
+            setVisualization(prev => ({
+              ...prev,
               explored: new Map(exploredAtDepth),
               currentDepth: depth,
               maxDepth: maxDepth
             }));
-            
+
             if (delay > 0) await new Promise(resolve => setTimeout(resolve, delay / 2));
             nodeIndex++;
           }
         }
-        
+
         if (delay > 0) await new Promise(resolve => setTimeout(resolve, delay * 3));
       }
     } else {
       // Regular animation
-      setVisualization(prev => ({ 
+      setVisualization(prev => ({
         ...prev,
-        explored: new Map(), 
-        path: [], 
+        explored: new Map(),
+        path: [],
         selectedGoal: null,
         currentDepth: 0,
         maxDepth: 0
       }));
-      
+
       const exploredWithDepth = new Map();
-      
+
       for (let i = 0; i < exploredNodes.length; i++) {
         const [x, y] = exploredNodes[i];
         const index = coordToIndex([x, y]);
         const depth = isDepthLimitedAlgorithm() ? Math.min(Math.floor(i / 5), config.depthLimit) : 0;
-        
+
         exploredWithDepth.set(index, depth);
-        
-        setVisualization(prev => ({ 
-          ...prev, 
+
+        setVisualization(prev => ({
+          ...prev,
           explored: new Map(exploredWithDepth),
           currentDepth: depth,
           maxDepth: Math.max(prev.maxDepth, depth)
         }));
-        
+
         if (delay > 0) await new Promise(resolve => setTimeout(resolve, delay));
       }
     }
-    
+
     // Animate path
     for (const [x, y] of pathNodes) {
       const index = coordToIndex([x, y]);
-      setVisualization(prev => ({ 
-        ...prev, 
-        path: [...prev.path, index] 
+      setVisualization(prev => ({
+        ...prev,
+        path: [...prev.path, index]
       }));
       if (delay > 0) await new Promise(resolve => setTimeout(resolve, delay * 2));
     }
@@ -361,7 +361,7 @@ const MazeSolver = () => {
       });
 
       if (!response.ok) throw new Error(`Request failed: ${response.status}`);
-      
+
       const data = await response.json();
       setResult(data);
 
@@ -398,7 +398,7 @@ const MazeSolver = () => {
   const updateConfig = (key, value) => {
     const newValue = parseInt(value) || value;
     setConfig(prev => ({ ...prev, [key]: newValue }));
-    
+
     // Only trigger regeneration for dimension or goal changes
     if (key === 'rows' || key === 'cols' || key === 'numGoals') {
       setShouldRegenerate(true);
@@ -416,13 +416,12 @@ const MazeSolver = () => {
       <div className="max-w-8xl mx-auto">
         <div className="text-center mb-6">
           <h1 className="text-4xl font-bold text-gray-800 mb-2">🧩 Enhanced Maze Pathfinding Visualizer</h1>
-          <div className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-medium ${
-            backendStatus === 'connected' ? 'bg-green-100 text-green-800' :
-            backendStatus === 'error' ? 'bg-red-100 text-red-800' : 
-            'bg-yellow-100 text-yellow-800'
-          }`}>
-            Backend: {backendStatus === 'connected' ? '🟢 Connected' : 
-                    backendStatus === 'error' ? '🔴 Error' : '🟡 Disconnected'}
+          <div className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-medium ${backendStatus === 'connected' ? 'bg-green-100 text-green-800' :
+              backendStatus === 'error' ? 'bg-red-100 text-red-800' :
+                'bg-yellow-100 text-yellow-800'
+            }`}>
+            Backend: {backendStatus === 'connected' ? '🟢 Connected' :
+              backendStatus === 'error' ? '🔴 Error' : '🟡 Disconnected'}
           </div>
         </div>
 
@@ -450,18 +449,18 @@ const MazeSolver = () => {
                     Explored: {visualization.explored.size} nodes
                   </div>
                 </div>
-                
+
                 {isDepthLimitedAlgorithm() && !isIterativeAlgorithm() && (
                   <div className="grid grid-cols-1text-sm mb-3">
                     <div className="bg-white bg-opacity-70 rounded px-3 py-2 border border-indigo-200">
-                      <span className="font-medium text-indigo-700">Depth Limit:</span> 
+                      <span className="font-medium text-indigo-700">Depth Limit:</span>
                       <span className="ml-1 font-mono text-indigo-900 font-bold">{config.depthLimit}</span>
                     </div>
                   </div>
                 )}
-                
+
                 <div className="w-full bg-blue-200 rounded-full h-2 overflow-hidden">
-                  <div 
+                  <div
                     className="bg-gradient-to-r from-blue-500 to-indigo-500 h-2 rounded-full transition-all duration-500 ease-out"
                     style={{ width: `${Math.min(100, (visualization.explored.size / (config.rows * config.cols * 0.3)) * 100)}%` }}
                   ></div>
@@ -473,15 +472,15 @@ const MazeSolver = () => {
               <div className="mb-4 p-3 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg border border-indigo-200">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
                   <div className="bg-white bg-opacity-60 rounded px-3 py-2">
-                    <span className="font-medium text-indigo-800">Total Explored:</span> 
+                    <span className="font-medium text-indigo-800">Total Explored:</span>
                     <span className="ml-1 font-mono text-indigo-900 font-bold">{visualization.explored.size}</span>
                   </div>
                   <div className="bg-white bg-opacity-60 rounded px-3 py-2">
-                    <span className="font-medium text-indigo-800">Path Length:</span> 
+                    <span className="font-medium text-indigo-800">Path Length:</span>
                     <span className="ml-1 font-mono text-indigo-900 font-bold">{visualization.path.length}</span>
                   </div>
                   <div className="bg-white bg-opacity-60 rounded px-3 py-2">
-                    <span className="font-medium text-indigo-800">Efficiency:</span> 
+                    <span className="font-medium text-indigo-800">Efficiency:</span>
                     <span className="ml-1 font-mono text-indigo-900 font-bold">
                       {visualization.path.length > 0 ? Math.round((visualization.path.length / visualization.explored.size) * 100) : 0}%
                     </span>
@@ -491,11 +490,12 @@ const MazeSolver = () => {
             )}
 
             <div className="bg-gray-100 p-4 rounded-lg mb-4 shadow-inner">
-              <div 
+              <div
                 className="grid gap-0.5 mx-auto max-w-full"
-                style={{ 
+                style={{
                   gridTemplateColumns: `repeat(${config.cols}, minmax(0, 1fr))`,
-                  aspectRatio: `${config.cols}/${config.rows}`
+                  maxHeight: '70vh', // prevent it from going beyond screen
+                  width: '100%',
                 }}
               >
                 {maze.map((cell, i) => {
@@ -504,14 +504,14 @@ const MazeSolver = () => {
                   const isGoal = cell?.type === 'goal';
                   const isExplored = visualization.explored.has(i);
                   const isPath = visualization.path.includes(i);
-                  const isSelectedGoal = visualization.selectedGoal !== null && 
-                    isGoal && 
+                  const isSelectedGoal = visualization.selectedGoal !== null &&
+                    isGoal &&
                     goals.findIndex(([gx, gy]) => gx === x && gy === y) === visualization.selectedGoal;
                   const cellDepth = visualization.explored.get(i);
 
                   // Enhanced cell styling with proper priority
                   let cellClass = 'aspect-square border border-gray-300 cursor-pointer transition-all duration-300 relative overflow-hidden ';
-                  
+
                   if (isStart) {
                     cellClass += 'bg-green-500 border-2 border-green-700 shadow-lg z-30';
                   } else if (isSelectedGoal) {
@@ -527,7 +527,7 @@ const MazeSolver = () => {
                   } else {
                     cellClass += 'bg-gray-50 hover:bg-gray-100 border-gray-200';
                   }
-                  
+
                   return (
                     <div
                       key={i}
@@ -543,7 +543,7 @@ const MazeSolver = () => {
                           </div>
                         </div>
                       )}
-                      
+
                       {/* Goal marker - always visible with high priority */}
                       {isGoal && !isStart && (
                         <div className="absolute inset-0 flex items-center justify-center z-30">
@@ -621,25 +621,25 @@ const MazeSolver = () => {
                 </h4>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm mb-4">
                   <div className="bg-white bg-opacity-70 rounded px-3 py-2">
-                    <span className="font-medium text-gray-700">Status:</span> 
+                    <span className="font-medium text-gray-700">Status:</span>
                     <span className={`ml-1 font-bold ${result.success ? 'text-green-600' : 'text-red-600'}`}>
                       {result.success ? '✅ Success' : '❌ Failed'}
                     </span>
                   </div>
                   <div className="bg-white bg-opacity-70 rounded px-3 py-2">
-                    <span className="font-medium text-gray-700">Path Length:</span> 
+                    <span className="font-medium text-gray-700">Path Length:</span>
                     <span className="ml-1 font-mono font-bold text-blue-800">{result.path_length_multiple || 0}</span>
                   </div>
                   <div className="bg-white bg-opacity-70 rounded px-3 py-2">
-                    <span className="font-medium text-gray-700">Nodes Explored:</span> 
+                    <span className="font-medium text-gray-700">Nodes Explored:</span>
                     <span className="ml-1 font-mono font-bold text-blue-800">{result.num_explored_multiple || 0}</span>
                   </div>
                   <div className="bg-white bg-opacity-70 rounded px-3 py-2">
-                    <span className="font-medium text-gray-700">Time:</span> 
+                    <span className="font-medium text-gray-700">Time:</span>
                     <span className="ml-1 font-mono font-bold text-blue-800">{result.time_taken?.toFixed(4) || 0}s</span>
                   </div>
                 </div>
-                
+
                 {result.solution_single && result.solution_single.length > 1 && (
                   <div className="bg-white bg-opacity-50 rounded-lg p-3">
                     <p className="text-sm text-blue-700 mb-3 font-medium">🎯 Individual Goal Analysis:</p>
@@ -653,11 +653,10 @@ const MazeSolver = () => {
                               result.solution_single[i] || []
                             );
                           }}
-                          className={`px-3 py-2 text-xs rounded-lg font-medium transition-all duration-200 ${
-                            visualization.selectedGoal === i 
-                              ? 'bg-blue-500 text-white shadow-md scale-105' 
+                          className={`px-3 py-2 text-xs rounded-lg font-medium transition-all duration-200 ${visualization.selectedGoal === i
+                              ? 'bg-blue-500 text-white shadow-md scale-105'
                               : 'bg-blue-100 text-blue-800 hover:bg-blue-200 hover:shadow-sm'
-                          }`}>
+                            }`}>
                           Goal {i + 1} ({goal[0]},{goal[1]})
                           {result.solution_single[i] && (
                             <span className="ml-1 text-xs opacity-75">
@@ -677,7 +676,7 @@ const MazeSolver = () => {
             <h3 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
               <span>⚙️</span> Configuration
             </h3>
-            
+
             <div className="space-y-6">
               {/* File Upload Section */}
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 hover:border-indigo-400 transition-all duration-200 hover:bg-indigo-50">
@@ -689,7 +688,7 @@ const MazeSolver = () => {
                     </span>
                   )}
                 </h4>
-                
+
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -698,7 +697,7 @@ const MazeSolver = () => {
                   className="hidden"
                   disabled={isSearching}
                 />
-                
+
                 <button
                   onClick={() => fileInputRef.current?.click()}
                   disabled={isSearching}
@@ -706,7 +705,7 @@ const MazeSolver = () => {
                 >
                   {uploadedFile ? '🔄 Replace File' : '📤 Choose .txt File'}
                 </button>
-                
+
                 <div className="bg-gray-50 rounded-md p-3 text-xs text-gray-600 border">
                   <div className="font-medium mb-2 text-gray-700">📝 Expected Format:</div>
                   <div className="space-y-1 font-mono text-xs">
@@ -726,9 +725,9 @@ const MazeSolver = () => {
                   <div className="mt-2 p-2 bg-blue-50 rounded text-xs border border-blue-200">
                     <span className="font-medium text-blue-800">Example:</span>
                     <div className="font-mono text-blue-700 mt-1">
-                      [20,30]<br/>
-                      (1,1)<br/>
-                      (28,18)|(15,10)<br/>
+                      [20,30]<br />
+                      (1,1)<br />
+                      (28,18)|(15,10)<br />
                       (5,5,2,3)
                     </div>
                   </div>
@@ -773,7 +772,7 @@ const MazeSolver = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">🧠 Search Algorithm</label>
-                  <select value={config.algorithm} 
+                  <select value={config.algorithm}
                     onChange={(e) => updateConfig('algorithm', e.target.value)}
                     className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
                     disabled={isSearching}>
