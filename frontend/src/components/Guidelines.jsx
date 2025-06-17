@@ -367,7 +367,7 @@ const GuideLine = () => {
 
                             <div className="bg-purple-50 rounded-xl p-6 border-l-4 border-purple-400">
                                 <h4 className="font-semibold text-purple-800 mb-2">Algorithm Considerations</h4>
-                                <p className="text-purple-700">Iterative deepening algorithms (IDDFS, IDA*) are memory-efficient but slower due to repeated searches. Therefore, it is recommended to set he maze with the size around (20,20) and not too many goals. This is one of the limitations and it is going to be fixed in the future.</p>
+                                <p className="text-purple-700">Iterative deepening algorithms (IDDFS, IDA*) and Depth-Limited Search are memory-efficient but slower due to repeated searches. Therefore, it is recommended to set he maze with the size around (20,20) and not too many goals. This is one of the limitations and it is going to be fixed in the future.</p>
                             </div>
 
                             <div className="bg-green-50 rounded-xl p-6 border-l-4 border-green-400">
