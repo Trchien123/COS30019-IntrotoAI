@@ -489,73 +489,88 @@ const MazeSolver = () => {
               </div>
             )}
 
-            <div className="bg-gray-100 p-4 rounded-lg mb-4 shadow-inner max-h-[70vh] overflow-auto">
-              <div 
-                className="grid gap-0.5 mx-auto w-full"
-                style={{ 
-                  gridTemplateColumns: `repeat(${config.cols}, minmax(0, 1fr))`,
+            <div className="bg-gray-100 p-4 rounded-lg mb-4 shadow-inner w-full">
+              <div
+                className="relative mx-auto w-full max-w-full"
+                style={{
+                  width: '100%',
+                  aspectRatio: `${config.cols} / ${config.rows}`, // maintain square layout
                 }}
               >
-                {maze.map((cell, i) => {
-                  const [x, y] = indexToCoord(i);
-                  const isStart = startPos && startPos[0] === x && startPos[1] === y;
-                  const isGoal = cell?.type === 'goal';
-                  const isExplored = visualization.explored.has(i);
-                  const isPath = visualization.path.includes(i);
-                  const isSelectedGoal = visualization.selectedGoal !== null && 
-                    isGoal && 
-                    goals.findIndex(([gx, gy]) => gx === x && gy === y) === visualization.selectedGoal;
+                <div
+                  className="absolute inset-0 grid gap-[1px]"
+                  style={{
+                    gridTemplateColumns: `repeat(${config.cols}, 1fr)`,
+                    gridTemplateRows: `repeat(${config.rows}, 1fr)`,
+                  }}
+                >
+                  {maze.map((cell, i) => {
+                    const [x, y] = indexToCoord(i);
+                    const isStart = startPos && startPos[0] === x && startPos[1] === y;
+                    const isGoal = cell?.type === 'goal';
+                    const isExplored = visualization.explored.has(i);
+                    const isPath = visualization.path.includes(i);
+                    const isSelectedGoal =
+                      visualization.selectedGoal !== null &&
+                      isGoal &&
+                      goals.findIndex(([gx, gy]) => gx === x && gy === y) ===
+                        visualization.selectedGoal;
 
-                  let cellClass = 'aspect-square border border-gray-300 cursor-pointer transition-all duration-300 relative overflow-hidden ';
-                  
-                  if (isStart) {
-                    cellClass += 'bg-green-500 border-2 border-green-700 shadow-lg z-30';
-                  } else if (isSelectedGoal) {
-                    cellClass += 'bg-red-600 shadow-lg border-2 border-red-800 z-20 ring-2 ring-red-300';
-                  } else if (isGoal) {
-                    cellClass += 'bg-red-400 border-2 border-red-600 shadow-md z-20';
-                  } else if (isPath) {
-                    cellClass += 'bg-yellow-400 animate-pulse shadow-lg border-2 border-yellow-600 z-10';
-                  } else if (isExplored) {
-                    cellClass += 'bg-blue-300 shadow-sm border-blue-400';
-                  } else if (cell?.type === 'wall') {
-                    cellClass += 'bg-gray-800 border-gray-700';
-                  } else {
-                    cellClass += 'bg-gray-50 hover:bg-gray-100 border-gray-200';
-                  }
-                  
-                  return (
-                    <div
-                      key={i}
-                      className={cellClass}
-                      onClick={() => handleCellClick(i)}
-                      style={{ minWidth: '12px', minHeight: '12px' }}
-                    >
-                      {isStart && (
-                        <div className="absolute inset-0 flex items-center justify-center z-40">
-                          <div className="w-4 h-4 bg-white rounded-full shadow-lg border-2 border-green-800 flex items-center justify-center">
-                            <span className="text-xs font-bold text-green-800">S</span>
+                    let cellClass =
+                      'aspect-square border border-gray-300 cursor-pointer transition-all duration-300 relative overflow-hidden ';
+
+                    if (isStart) {
+                      cellClass +=
+                        'bg-green-500 border-2 border-green-700 shadow-lg z-30';
+                    } else if (isSelectedGoal) {
+                      cellClass +=
+                        'bg-red-600 shadow-lg border-2 border-red-800 z-20 ring-2 ring-red-300';
+                    } else if (isGoal) {
+                      cellClass +=
+                        'bg-red-400 border-2 border-red-600 shadow-md z-20';
+                    } else if (isPath) {
+                      cellClass +=
+                        'bg-yellow-400 animate-pulse shadow-lg border-2 border-yellow-600 z-10';
+                    } else if (isExplored) {
+                      cellClass += 'bg-blue-300 shadow-sm border-blue-400';
+                    } else if (cell?.type === 'wall') {
+                      cellClass += 'bg-gray-800 border-gray-700';
+                    } else {
+                      cellClass +=
+                        'bg-gray-50 hover:bg-gray-100 border-gray-200';
+                    }
+
+                    return (
+                      <div
+                        key={i}
+                        className={cellClass}
+                        onClick={() => handleCellClick(i)}
+                      >
+                        {isStart && (
+                          <div className="absolute inset-0 flex items-center justify-center z-40">
+                            <div className="w-4 h-4 bg-white rounded-full shadow-lg border-2 border-green-800 flex items-center justify-center">
+                              <span className="text-xs font-bold text-green-800">S</span>
+                            </div>
                           </div>
-                        </div>
-                      )}
-                      {isGoal && !isStart && (
-                        <div className="absolute inset-0 flex items-center justify-center z-30">
-                          <div className="w-4 h-4 bg-white rounded-full shadow-lg border-2 border-red-800 flex items-center justify-center">
-                            <span className="text-xs font-bold text-red-800">G</span>
+                        )}
+                        {isGoal && !isStart && (
+                          <div className="absolute inset-0 flex items-center justify-center z-30">
+                            <div className="w-4 h-4 bg-white rounded-full shadow-lg border-2 border-red-800 flex items-center justify-center">
+                              <span className="text-xs font-bold text-red-800">G</span>
+                            </div>
                           </div>
-                        </div>
-                      )}
-                      {isPath && !isStart && !isGoal && (
-                        <div className="absolute inset-0 flex items-center justify-center z-5">
-                          <div className="w-2 h-2 bg-yellow-600 rounded-full animate-ping"></div>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
+                        )}
+                        {isPath && !isStart && !isGoal && (
+                          <div className="absolute inset-0 flex items-center justify-center z-5">
+                            <div className="w-2 h-2 bg-yellow-600 rounded-full animate-ping"></div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
-
 
             <div className="flex flex-wrap gap-3 mb-4">
               <button onClick={handleNewMaze} disabled={isSearching}
