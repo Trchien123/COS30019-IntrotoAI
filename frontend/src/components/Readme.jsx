@@ -1,10 +1,10 @@
 import React from 'react';
-import { Github, ExternalLink, Code, Folder, Download, Star, GitBranch } from 'lucide-react';
+import { Github, ExternalLink, Code, Folder, Download, Mail } from 'lucide-react';
 
 const ReadMe = () => {
   const repoStats = [
-    { label: 'Repository', value: 'pathfinding-visualizer' },
-    { label: 'Language', value: 'JavaScript/React' },
+    { label: 'Repository', value: 'intro-to-ai-Trchien123' },
+    { label: 'Language', value: 'JavaScript/React/Python' },
     { label: 'Version', value: 'v1.0.0' }
   ];
 
@@ -21,25 +21,40 @@ const ReadMe = () => {
     { name: 'React', desc: 'Frontend framework' },
     { name: 'Tailwind CSS', desc: 'Styling framework' },
     { name: 'Lucide React', desc: 'Icon library' },
-    { name: 'JavaScript', desc: 'Programming language' }
+    { name: 'JavaScript', desc: 'Programming language' },
+    { name: 'Python', desc: 'Programming language' }
   ];
 
   const fileStructure = [
-    { name: 'src/', type: 'folder', desc: 'Source code directory' },
-    { name: '├── components/', type: 'folder', desc: 'React components' },
-    { name: '│   ├── Dashboard.jsx', type: 'file', desc: 'Main visualization component' },
-    { name: '│   ├── Guidelines.jsx', type: 'file', desc: 'Instructions page' },
-    { name: '│   ├── ReadMe.jsx', type: 'file', desc: 'This documentation' },
-    { name: '│   └── About.jsx', type: 'file', desc: 'About page' },
-    { name: '├── algorithms/', type: 'folder', desc: 'Pathfinding algorithms' },
-    { name: '│   ├── bfs.js', type: 'file', desc: 'Breadth-First Search' },
-    { name: '│   ├── dfs.js', type: 'file', desc: 'Depth-First Search' },
-    { name: '│   ├── astar.js', type: 'file', desc: 'A* Search' },
-    { name: '│   └── greedy.js', type: 'file', desc: 'Greedy Best-First' },
-    { name: '├── utils/', type: 'folder', desc: 'Utility functions' },
-    { name: '│   ├── mazeGenerator.js', type: 'file', desc: 'Random maze creation' },
-    { name: '│   └── fileParser.js', type: 'file', desc: 'Maze file parsing' },
-    { name: '└── App.jsx', type: 'file', desc: 'Main application component' }
+    { name: 'intro-to-ai-Trchien123/', type: 'folder', desc: 'Source code directory' },
+    { name: '├── frontend/', type: 'folder', desc: 'Frontend' },
+    { name: '│   ├── public', type: 'folder', desc: 'Public assets' },
+    { name: '│   │   └── vite.svg', type: 'file', desc: 'Vite logo' },
+    { name: '│   ├── src/', type: 'folder', desc: 'Main code frontend' },
+    { name: '│   │   ├── assets/', type: 'folder', desc: 'Font and assets' },
+    { name: '│   │   └── components/', type: 'folder', desc: 'Main components' },
+    { name: '│   │   │   ├── Dashboard.jsx', type: 'file', desc: 'Dashboard Component' },
+    { name: '│   │   │   ├── DashboardCards.jsx', type: 'file', desc: 'Dashboard Cards' },
+    { name: '│   │   │   ├── Guidelines.jsx', type: 'file', desc: 'Guidelines page' },
+    { name: '│   │   │   ├── Main.jsx', type: 'file', desc: 'Main file handle all pages' },
+    { name: '│   │   │   ├── Readme.jsx', type: 'file', desc: 'ReadMe page' },
+    { name: '│   │   │   ├── Reports.jsx', type: 'file', desc: 'Report page' },
+    { name: '│   │   │   └── SideMenu.jsx', type: 'file', desc: 'SideMenu component' },
+    { name: '│   ├── App.css', type: 'file', desc: 'Global styles' },
+    { name: '│   ├── App.jsx', type: 'file', desc: 'Global app' },
+    { name: '│   ├── index.css', type: 'file', desc: 'Component styles' },
+    { name: '│   └── main.jsx', type: 'file', desc: 'Root' },
+    { name: '├── backend/', type: 'folder', desc: 'Backend' },
+    { name: '│   ├── RobotNav-test.txt', type: 'file', desc: 'Maze 1' },
+    { name: '│   ├── frontier.py', type: 'file', desc: 'Frontier class' },
+    { name: '│   ├── maze.py', type: 'file', desc: 'Maze class and searching algorithms' },
+    { name: '│   ├── node.py', type: 'file', desc: 'Node class' },
+    { name: '│   ├── requirements.txt', type: 'file', desc: 'Enviroment requirements' },
+    { name: '│   ├── search.py', type: 'file', desc: 'Python output file' },
+    { name: '│   ├── server.py', type: 'file', desc: 'FastAPI server implementation' },
+    { name: '│   ├── test.txt', type: 'file', desc: 'Maze 2' },
+    { name: '│   └── utils.py', type: 'file', desc: 'Utility functions' },
+    { name: '└── README.md', type: 'file', desc: 'Main application component' }
   ];
 
   return (
@@ -58,21 +73,40 @@ const ReadMe = () => {
           </div>
           
           <div className="flex flex-wrap gap-4 mb-6">
-            <button className="flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors">
+            {/* GitHub Link */}
+            <a
+              href="https://github.com/Tristan-Lab-Swinburne/intro-to-ai-Trchien123"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors"
+            >
               <Github className="w-4 h-4" />
               View on GitHub
-            </button>
-            <button className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+            </a>
+
+            {/* Live Demo */}
+            <a
+              href="https://your-demo-site.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            >
               <ExternalLink className="w-4 h-4" />
               Live Demo
-            </button>
-            <button className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+            </a>
+
+            {/* Download ZIP */}
+            <a
+              href="https://github.com/Tristan-Lab-Swinburne/intro-to-ai-Trchien123/archive/refs/heads/main.zip"
+              className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+              download
+            >
               <Download className="w-4 h-4" />
               Download ZIP
-            </button>
+            </a>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {repoStats.map((stat, index) => (
               <div key={index} className="text-center p-3 bg-gray-50 rounded-lg">
                 <div className="font-semibold text-gray-800">{stat.label}</div>
@@ -92,7 +126,7 @@ const ReadMe = () => {
           </p>
           <p className="text-gray-700 leading-relaxed">
             This project demonstrates the behavior and efficiency of various pathfinding algorithms 
-            including BFS, DFS, A*, Greedy Best-First, and iterative deepening variants. Perfect for 
+            including BFS, DFS, Greedy Best-First, A*, Backtracking ,and iterative deepening variants. Perfect for 
             educational purposes and algorithm comparison.
           </p>
         </div>
@@ -100,7 +134,7 @@ const ReadMe = () => {
         {/* Features */}
         <div className="bg-white rounded-lg shadow-md p-8 mb-8">
           <h2 className="text-2xl font-bold text-gray-800 mb-4">✨ Key Features</h2>
-          <div className="grid md:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {features.map((feature, index) => (
               <div key={index} className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
@@ -134,22 +168,35 @@ const ReadMe = () => {
             <div>
               <h3 className="font-semibold text-gray-800 mb-2">Clone the repository:</h3>
               <div className="bg-gray-900 rounded-lg p-4 text-gray-300 font-mono text-sm">
-                git clone https://github.com/yourusername/pathfinding-visualizer.git
+                git clone https://github.com/Tristan-Lab-Swinburne/intro-to-ai-Trchien123.git
               </div>
             </div>
             
             <div>
               <h3 className="font-semibold text-gray-800 mb-2">Install dependencies:</h3>
+              <div className="bg-gray-900 rounded-lg p-4 text-gray-300 font-mono text-sm mb-2">
+                <div className='mb-3'>FRONTEND</div>
+                cd intro-to-ai-Trchien123<br />
+                cd frontend<br />
+                npm install
+              </div>
               <div className="bg-gray-900 rounded-lg p-4 text-gray-300 font-mono text-sm">
-                cd pathfinding-visualizer<br />
+                <div className='mb-3'>BACKEND</div>
+                cd intro-to-ai-Trchien123<br />
+                cd backend<br />
                 npm install
               </div>
             </div>
             
             <div>
               <h3 className="font-semibold text-gray-800 mb-2">Start development server:</h3>
+              <div className="bg-gray-900 rounded-lg p-4 text-gray-300 font-mono text-sm mb-2">
+                <div className='mb-3'>FRONTEND</div>
+                npm run dev
+              </div>
               <div className="bg-gray-900 rounded-lg p-4 text-gray-300 font-mono text-sm">
-                npm start
+                <div className='mb-3'>BACKEND</div>
+                uvicorn server:app --reload --port 5000
               </div>
             </div>
             
@@ -166,7 +213,7 @@ const ReadMe = () => {
         <div className="bg-white rounded-lg shadow-md p-8 mb-8">
           <h2 className="text-2xl font-bold text-gray-800 mb-4">📁 Project Structure</h2>
           <div className="bg-gray-50 rounded-lg p-4">
-            <div className="font-mono text-sm space-y-1">
+            <div className="font-mono text-lg space-y-1">
               {fileStructure.map((item, index) => (
                 <div key={index} className="flex items-center gap-2">
                   <span className="text-gray-600">{item.name}</span>
@@ -175,7 +222,7 @@ const ReadMe = () => {
                   ) : (
                     <Code className="w-4 h-4 text-gray-500" />
                   )}
-                  <span className="text-gray-500 text-xs">- {item.desc}</span>
+                  <span className="text-gray-500 text-sm">- {item.desc}</span>
                 </div>
               ))}
             </div>
@@ -191,8 +238,9 @@ const ReadMe = () => {
               <ul className="text-sm text-gray-600 space-y-1">
                 <li>• Breadth-First Search (BFS)</li>
                 <li>• Depth-First Search (DFS)</li>
-                <li>• Depth-Limited Search</li>
-                <li>• Iterative Deepening DFS</li>
+                <li>• Depth-Limited Search (CUSTOM)</li>
+                <li>• Backtracking Search (CUSTOM)</li>
+                <li>• Iterative Deepening DFS (CUSTOM)</li>
               </ul>
             </div>
             <div className="space-y-2">
@@ -200,8 +248,7 @@ const ReadMe = () => {
               <ul className="text-sm text-gray-600 space-y-1">
                 <li>• A* Search</li>
                 <li>• Greedy Best-First Search</li>
-                <li>• Iterative Deepening A*</li>
-                <li>• Backtracking Search</li>
+                <li>• Iterative Deepening A* (CUSTOM)</li>
               </ul>
             </div>
           </div>
@@ -234,31 +281,16 @@ const ReadMe = () => {
         <div className="bg-white rounded-lg shadow-md p-8 mb-8">
           <h2 className="text-2xl font-bold text-gray-800 mb-4">🤝 Contributing</h2>
           <p className="text-gray-700 mb-4">
-            Contributions are welcome! Please feel free to submit a Pull Request. For major changes, 
-            please open an issue first to discuss what you would like to change.
+            Contributions are welcome! Please feel free to email me to dicuss about what I should improve in my code! And again, thank you for your contributions!
           </p>
           <div className="flex gap-4">
-            <button className="flex items-center gap-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors">
-              <GitBranch className="w-4 h-4" />
-              Fork Repository
-            </button>
-            <button className="flex items-center gap-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors">
-              <Star className="w-4 h-4" />
-              Star Project
-            </button>
-          </div>
-        </div>
-
-        {/* License */}
-        <div className="bg-white rounded-lg shadow-md p-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">📄 License</h2>
-          <p className="text-gray-700 mb-4">
-            This project is licensed under the MIT License - see the LICENSE file for details.
-          </p>
-          <div className="bg-gray-50 rounded-lg p-4 text-sm text-gray-600">
-            <strong>MIT License</strong><br />
-            Copyright (c) 2024 Pathfinding Visualizer<br />
-            Permission is hereby granted, free of charge, to any person obtaining a copy of this software...
+            <a
+              href="mailto:huynhtrungchienltt@gmail.com"
+              className="flex items-center gap-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors"
+            >
+              <Mail className="w-4 h-4" />
+              Contact Developer
+            </a>
           </div>
         </div>
       </div>

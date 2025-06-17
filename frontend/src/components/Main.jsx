@@ -4,7 +4,6 @@ import Dashboard from './Dashboard';
 import GuideLine from './Guidelines';
 import Report from './Report';
 import ReadMe from './Readme';
-import Author from './Author';
 import SideMenu from './SideMenu';
 
 const Main = () => {
