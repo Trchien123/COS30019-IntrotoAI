@@ -354,7 +354,7 @@ const MazeSolver = () => {
         requestBody.depth_limit = config.depthLimit;
       }
 
-      const response = await fetch('http://localhost:5000/solve', {
+      const response = await fetch('https://maze-searching-visualizer-backend.onrender.com/solve', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(requestBody)
