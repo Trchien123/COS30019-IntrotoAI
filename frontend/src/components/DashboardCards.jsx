@@ -24,6 +24,15 @@ const MazeSolver = () => {
   const [shouldRegenerate, setShouldRegenerate] = useState(true);
   const fileInputRef = useRef(null);
 
+  const isLocalhost = window.location.hostname === 'localhost';
+  const backendUrl_solve = isLocalhost
+    ? 'http://localhost:5000/solve'  // Or your local backend port
+    : 'https://maze-searching-visualizer-backend.onrender.com/solve';
+
+  const backendUrl_health = isLocalhost
+    ? 'http://localhost:5000/health'  // Or your local backend port
+    : 'https://maze-searching-visualizer-backend.onrender.com/solve';
+
   const algorithms = [
     { id: 'bfs', name: 'Breadth-First Search' },
     { id: 'dfs', name: 'Depth-First Search' },
@@ -47,7 +56,7 @@ const MazeSolver = () => {
   useEffect(() => {
     const checkBackend = async () => {
       try {
-        const response = await fetch('https://maze-searching-visualizer-backend.onrender.com/health');
+        const response = await fetch(backendUrl_health);
         setBackendStatus(response.ok ? 'connected' : 'error');
       } catch {
         setBackendStatus('disconnected');
@@ -354,7 +363,7 @@ const MazeSolver = () => {
         requestBody.depth_limit = config.depthLimit;
       }
 
-      const response = await fetch('https://maze-searching-visualizer-backend.onrender.com/solve', {
+      const response = await fetch(backendUrl_solve, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(requestBody)
