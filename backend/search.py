@@ -16,17 +16,17 @@ def main():
 
     # Solve the maze and return the result
     if sys.argv[2] == 'bfs' or sys.argv[2] == 'dfs':
-        maze.solve_bfs_dfs(sys.argv[2])
+        print(maze.solve_bfs_dfs(sys.argv[2]))
     elif sys.argv[2] == 'gbfs' or sys.argv[2] == 'as':
-        maze.solve_gbfs_as(sys.argv[2])
+        print(maze.solve_gbfs_as(sys.argv[2]))
     elif sys.argv[2] == 'backtracking':
-        maze.solve_backtracking()
+        print(maze.solve_backtracking())
     elif sys.argv[2] == 'depthlimited':
-        maze.solve_depthlimited(limit=30)
+        print(maze.solve_depthlimited(limit=30))
     elif sys.argv[2] == 'ids':
-        maze.solve_ids(limit=15)
+        print(maze.solve_ids(limit=30))
     elif sys.argv[2] == 'idas':
-        maze.solve_idas()
+        print(maze.solve_idas(limit=30))
 
 if __name__ == '__main__':
     main()

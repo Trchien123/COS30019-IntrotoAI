@@ -1,9 +1,4 @@
 '''
-I set the goal for myself that i am gonna finish all these codes within this night.
-I will do it myself, understand clearly what i am doing, and not copy paste.
-'''
-
-'''
 --------------------------- STEP 1 ---------------------------
 First to create a server that can handle requests using FastAPI.
 We need to import some necessary modules, including: 

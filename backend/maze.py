@@ -12,7 +12,6 @@ from frontier import Stack, Queue, PriorityQueue
 from utils import *
 from node import Node
 import time
-import sys
 
 """
 ========= Step 2 =========
@@ -141,15 +140,6 @@ class Maze:
                 return False
             
         self.time_taken = time.time() - start_time
-        print(self.nodes_explored_multiple)
-        print(self.num_explored_multiple)
-        print(self.solution_multiple)
-        print(self.path_length_multiple)
-        print()
-        print(self.nodes_explored_single)
-        print(self.num_explored_single)
-        print(self.solution_single)
-        print(self.path_length_single)
         return True
     
     ''' SOlVING GREEDY BEST FIRST SEARCH AND ASTAR'''
@@ -230,15 +220,6 @@ class Maze:
                 return False
 
         self.time_taken = time.time() - start_time
-        print(self.nodes_explored_multiple)
-        print(self.num_explored_multiple)
-        print(self.solution_multiple)
-        print(self.path_length_multiple)
-        print()
-        print(self.nodes_explored_single)
-        print(self.num_explored_single)
-        print(self.solution_single)
-        print(self.path_length_single)
         return True
 
     ''' SOLVING BACKTRACKING '''
@@ -284,15 +265,6 @@ class Maze:
                 return False
 
         self.time_taken = time.time() - start_time
-        print(self.nodes_explored_multiple)
-        print(self.num_explored_multiple)
-        print(self.solution_multiple)
-        print(self.path_length_multiple)
-        print()
-        print(self.nodes_explored_single)
-        print(self.num_explored_single)
-        print(self.solution_single)
-        print(self.path_length_single)
         return True
 
     def _backtrack_search(self, current, goals, path, visited):
@@ -378,27 +350,6 @@ class Maze:
                 return False
 
         self.time_taken = time.time() - start_time
-
-        # Debug print
-        print("visited_by_depth_all:")
-        print(self.visited_by_depth_all)
-        print("nodes_explored_multiple:")
-        print(self.nodes_explored_multiple)
-        print("num_explored_multiple:")
-        print(self.num_explored_multiple)
-        print("solution_multiple:")
-        print(self.solution_multiple)
-        print("path_length_multiple:")
-        print(self.path_length_multiple)
-        print("nodes_explored_single:")
-        print(self.nodes_explored_single)
-        print("num_explored_single:")
-        print(self.num_explored_single)
-        print("solution_single:")
-        print(self.solution_single)
-        print("path_length_single:")
-        print(self.path_length_single)
-
         return True
 
     def _dls_recursive(self, current, goals, limit, path, visited, visited_by_depth, depth):
@@ -511,47 +462,6 @@ class Maze:
                 return False
 
         self.time_taken = time.time() - start_time
-
-        # Combine visited nodes by depth
-        combined_visited_by_depth = {}
-        max_depth_reached = 0
-        for visited_dict in self.visited_by_depth_all:
-            for depth, nodes in visited_dict.items():
-                if depth not in combined_visited_by_depth:
-                    combined_visited_by_depth[depth] = []
-                combined_visited_by_depth[depth].extend(nodes)
-                max_depth_reached = max(max_depth_reached, depth)
-
-        # Remove duplicates per depth
-        for depth in combined_visited_by_depth:
-            seen = set()
-            unique_nodes = []
-            for node in combined_visited_by_depth[depth]:
-                if node not in seen:
-                    unique_nodes.append(node)
-                    seen.add(node)
-            combined_visited_by_depth[depth] = unique_nodes
-
-        # Print visited info
-        print(combined_visited_by_depth)
-        print("nodes_explored_multiple:")
-        print(self.nodes_explored_multiple)
-        print("num_explored_multiple:")
-        print(self.num_explored_multiple)
-        print("solution_multiple:")
-        print(self.solution_multiple)
-        print("path_length_multiple:")
-        print(self.path_length_multiple)
-        print()
-        print("nodes_explored_single:")
-        print(self.nodes_explored_single)
-        print("num_explored_single:")
-        print(self.num_explored_single)
-        print("solution_single:")
-        print(self.solution_single)
-        print("path_length_single:")
-        print(self.path_length_single)
-
         return True
 
 
@@ -632,49 +542,6 @@ class Maze:
                 return False
         
         self.time_taken = time.time() - start_time
-        
-        # Combine visited nodes by depth
-        combined_visited_by_depth = {}
-        max_depth_reached = 0
-        for visited_dict in self.visited_by_depth_all:
-            for depth, nodes in visited_dict.items():
-                if depth not in combined_visited_by_depth:
-                    combined_visited_by_depth[depth] = []
-                combined_visited_by_depth[depth].extend(nodes)
-                max_depth_reached = max(max_depth_reached, depth)
-        
-        # Remove duplicates per depth
-        for depth in combined_visited_by_depth:
-            seen = set()
-            unique_nodes = []
-            for node in combined_visited_by_depth[depth]:
-                if node not in seen:
-                    unique_nodes.append(node)
-                    seen.add(node)
-            combined_visited_by_depth[depth] = unique_nodes
-        
-        # Print raw dictionary of visited nodes by depth
-        print(combined_visited_by_depth)
-        
-        # Print all the data in raw format for frontend
-        print("nodes_explored_multiple:")
-        print(self.nodes_explored_multiple)
-        print("num_explored_multiple:")
-        print(self.num_explored_multiple)
-        print("solution_multiple:")
-        print(self.solution_multiple)
-        print("path_length_multiple:")
-        print(self.path_length_multiple)
-        print()
-        print("nodes_explored_single:")
-        print(self.nodes_explored_single)
-        print("num_explored_single:")
-        print(self.num_explored_single)
-        print("solution_single:")
-        print(self.solution_single)
-        print("path_length_single:")
-        print(self.path_length_single)
-        
         return True
 
     def _idas_search(self, current, goal, g_cost, threshold, path, visited_by_depth, depth):
