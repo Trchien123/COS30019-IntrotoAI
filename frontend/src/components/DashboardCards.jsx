@@ -801,7 +801,7 @@ const MazeSolver = () => {
                 {isDepthLimitedAlgorithm() && (
                   <div className="bg-yellow-50 rounded-lg p-3 border border-yellow-200">
                     <label className="block text-sm font-medium text-yellow-800 mb-2">
-                      🔢 Depth Limit: <span className="font-mono">{config.depthLimit}</span>
+                      🔢 Threshold: <span className="font-mono">{config.depthLimit}</span>
                     </label>
                     <input type="range" min="1" max="100" value={config.depthLimit}
                       onChange={(e) => updateConfig('depthLimit', e.target.value)}
