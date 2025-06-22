@@ -31,7 +31,7 @@ const MazeSolver = () => {
 
   const backendUrl_health = isLocalhost
     ? 'http://localhost:5000/health'  // Or your local backend port
-    : 'https://maze-searching-visualizer-backend.onrender.com/solve';
+    : 'https://maze-searching-visualizer-backend.onrender.com/health';
 
   const algorithms = [
     { id: 'bfs', name: 'Breadth-First Search' },
