@@ -23,8 +23,6 @@ class Maze:
         self.start = start # start is a tuple with (x, y) where x is column and y is row
         self.goals = goals # goals is a list of tuples with (x, y) where x is column and y is row
         self.walls = walls # set of tuples with (x, y) where x is column and y is row
-        self.solution = [] # the solution path
-
 
         # keep tract of the single and multiple goal search for representing in the frontend
         self.solution_single = [] # list of list of tuples (x, y) where x is column and y is row
@@ -74,8 +72,82 @@ class Maze:
         cells.reverse()
         return actions, cells
 
+    def _convert_path_to_actions(self, path):
+        """Convert a path of coordinates to a list of actions"""
+        if len(path) < 2:
+            return []
+        
+        actions = []
+        for i in range(1, len(path)):
+            prev_x, prev_y = path[i-1]
+            curr_x, curr_y = path[i]
+            
+            if curr_x > prev_x:
+                actions.append('right')
+            elif curr_x < prev_x:
+                actions.append('left')
+            elif curr_y > prev_y:
+                actions.append('down')
+            elif curr_y < prev_y:
+                actions.append('up')
+        
+        return actions
+
+    def print_results(self, filename, method):
+        """Print results in the required assignment format"""
+        if len(self.goals) == 1:
+            # Single goal case
+            if self.solution_single:
+                # Goal was found
+                goal = self.goals[0]
+                nodes_explored = self.num_explored_single[0] if self.num_explored_single else 0
+                
+                print(f"{filename} {method}")
+                print(f"<Node {goal}> {nodes_explored}")
+                
+                # Convert path to actions
+                if self.solution_single[0]:
+                    actions = self._convert_path_to_actions([self.start] + self.solution_single[0])
+                    print(actions)
+                else:
+                    print("[]")
+            else:
+                # No goal reachable
+                nodes_explored = self.num_explored_multiple
+                print(f"{filename} {method}")
+                print(f"No goal is reachable; {nodes_explored}")
+        else:
+            # Multiple goals case
+            if self.solution_single:  # If we found at least one goal
+                # For multiple goals, show all goals found
+                goals_found = []
+                total_nodes = self.num_explored_multiple
+                
+                # Collect all goals that were found (in order)
+                current_pos = self.start
+                for i, path in enumerate(self.solution_single):
+                    if path:
+                        goal_reached = path[-1]
+                        goals_found.append(goal_reached)
+                
+                print(f"{filename} {method}")
+                print(f"<Node {goals_found}> {total_nodes}")
+                
+                # Convert complete path to actions
+                if self.solution_multiple:
+                    complete_path = [self.start] + self.solution_multiple
+                    actions = self._convert_path_to_actions(complete_path)
+                    print(actions)
+                else:
+                    print("[]")
+            else:
+                # No goals reachable
+                nodes_explored = self.num_explored_multiple
+                print(f"{filename} {method}")
+                print(f"No goal is reachable; {nodes_explored}")
+
     ''' SOLVING BFS AND DFS '''
-    def solve_bfs_dfs(self, algorithm='bfs'):
+    def solve_bfs_dfs(self, filename, algorithm='bfs'):
         start_time = time.time()
         self.explored = set()
         self.solution = []
@@ -87,6 +159,7 @@ class Maze:
         self.num_explored_multiple = 0
         self.path_length_single = []
         self.path_length_multiple = 0
+        full_actions = []
 
         Frontier = Queue if algorithm == 'bfs' else Stack
         current_start = self.start
@@ -117,7 +190,8 @@ class Maze:
                     found_goals.append(current_goal)
                     remaining_goals.remove(current_goal)  # Remove the found goal
                     current_start = current_goal
-                    _, cells = self.reconstruct_path(node)
+                    actions, cells = self.reconstruct_path(node)
+                    full_actions.extend(actions)
                     self.nodes_explored_single.append(current_explored)
                     self.num_explored_single.append(num_explored_single)
                     self.solution_single.append(cells)
@@ -128,6 +202,7 @@ class Maze:
                     current_explored = []
                     goal_found = True
                     break
+
             
                 for action, state in self.possible_actions(node.state):
                     if not frontier.contain_state(state) and state not in self.explored:
@@ -136,14 +211,17 @@ class Maze:
 
             if not goal_found:
                 self.time_taken = time.time() - start_time
-                print('No Goals Found!!')
+                method = algorithm.upper()
+                self.print_results(filename, method)
                 return False
             
         self.time_taken = time.time() - start_time
+        method = algorithm.upper()
+        self.print_results(filename, method)
         return True
     
     ''' SOlVING GREEDY BEST FIRST SEARCH AND ASTAR'''
-    def solve_gbfs_as(self, algorithm="as"):
+    def solve_gbfs_as(self, filename, algorithm="as"):
         start_time = time.time()
         self.explored = set()
         self.solution = []
@@ -159,6 +237,7 @@ class Maze:
         remaining_goals = list(self.goals)
         current_start = self.start
         found_goals = []
+        full_actions = []
 
         while remaining_goals:
             self.explored = set()
@@ -195,7 +274,8 @@ class Maze:
                     remaining_goals.remove(closest_goal)  # Remove the specific goal we found
                     current_start = current_goal
 
-                    _, cells = self.reconstruct_path(node)
+                    actions, cells = self.reconstruct_path(node)
+                    full_actions.extend(actions)
                     self.solution_single.append(cells)
                     self.solution_multiple.extend(cells)
                     self.nodes_explored_single.append(current_explored)
@@ -216,14 +296,17 @@ class Maze:
 
             if not goal_found:
                 self.time_taken = time.time() - start_time
-                print('No Goals Found!!')
+                method = "GBFS" if algorithm == "gbfs" else "AS"
+                self.print_results(filename, method)
                 return False
 
         self.time_taken = time.time() - start_time
+        method = "GBFS" if algorithm == "gbfs" else "AS"
+        self.print_results(filename, method)
         return True
 
     ''' SOLVING BACKTRACKING '''
-    def solve_backtracking(self):
+    def solve_backtracking(self, filename):
         start_time = time.time()
         self.solution = []
         self.solution_single = []
@@ -261,10 +344,11 @@ class Maze:
                 current_start = found_goal
             else:
                 self.time_taken = time.time() - start_time
-                print('No Goals Found!!')
+                self.print_results(filename, "BACKTRACKING")
                 return False
 
         self.time_taken = time.time() - start_time
+        self.print_results(filename, "BACKTRACKING")
         return True
 
     def _backtrack_search(self, current, goals, path, visited):
@@ -290,7 +374,7 @@ class Maze:
         return False
     
     ''' SOLVING DEPTH LIMITED '''
-    def solve_depthlimited(self, limit):
+    def solve_depthlimited(self, filename, limit):
         start_time = time.time()
 
         # Reset all tracking data
@@ -346,10 +430,11 @@ class Maze:
 
             if not found:
                 self.time_taken = time.time() - start_time
-                print("No reachable goal found within depth limit!")
+                self.print_results(filename, "DLS")
                 return False
 
         self.time_taken = time.time() - start_time
+        self.print_results(filename, "DLS")
         return True
 
     def _dls_recursive(self, current, goals, limit, path, visited, visited_by_depth, depth):
@@ -393,7 +478,7 @@ class Maze:
         return ("cutoff", None) if cutoff_occurred else ("failure", None)
 
     '''SOLVING ITERATIVE DEEPENING DEPTH FIRST SEARCH'''
-    def solve_ids(self, limit):
+    def solve_ids(self, filename, limit):
         start_time = time.time()
         # Reset data
         self.solution = []
@@ -458,15 +543,16 @@ class Maze:
 
             if not found:
                 self.time_taken = time.time() - start_time
-                print("Goal Not Found or Max Depth Reached!")
+                self.print_results(filename, "IDS")
                 return False
 
         self.time_taken = time.time() - start_time
+        self.print_results(filename, "IDS")
         return True
 
 
     ''' SOLVING IDAS'''
-    def solve_idas(self, max_iterations=100):
+    def solve_idas(self, filename, limit):
         start_time = time.time()
         # Reset data
         self.solution = []
@@ -491,7 +577,7 @@ class Maze:
             goal_explored = []
             visited_by_depth_combined = {}
             
-            while iterations < max_iterations:
+            while iterations < limit:
                 self._current_explored = []
                 path = []
                 path.append(current_start)
@@ -538,10 +624,11 @@ class Maze:
             
             if not found:
                 self.time_taken = time.time() - start_time
-                print("Goal Not Found or Max Iterations Reached!")
+                self.print_results(filename, "IDAS")
                 return False
         
         self.time_taken = time.time() - start_time
+        self.print_results(filename, "IDAS")
         return True
 
     def _idas_search(self, current, goal, g_cost, threshold, path, visited_by_depth, depth):
@@ -568,9 +655,6 @@ class Maze:
                 (nx, ny) not in self.walls and (nx, ny) not in path and (nx, ny) != current):
                 
                 path.append((nx, ny))
-                print('This is path:', path)
-                print('Explore this goal:', (nx, ny))
-                print('This is threshold:', threshold)
                 result = self._idas_search((nx, ny), goal, g_cost + 1, threshold, path, visited_by_depth, depth + 1)
                 if result == "found":
                     return "found"
