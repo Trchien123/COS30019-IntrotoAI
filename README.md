@@ -1,76 +1,92 @@
+# 🧩 Introduction to AI: Maze Solver
 
-Introduction to AI: Maze Solver
-This project is a web-based maze solver developed for the COS30019 course. It features a React-based frontend for maze visualization and a Python backend that implements various search algorithms to navigate mazes of different complexities.
+A powerful web-based visualization tool and command-line engine for solving complex mazes using classic Artificial Intelligence search algorithms. This project was developed for the **COS30019 Introduction to AI** course.
 
-Features
-Interactive Frontend: A React + Vite dashboard that allows users to visualize maze solving in real-time.
+---
 
-Comprehensive Search Algorithms: Implements multiple search techniques including:
+## 🚀 Key Features
 
-Breadth-First Search (BFS)
+* **Real-time Visualization:** An interactive **React + Vite** dashboard allows you to watch algorithms explore search spaces and find paths cell-by-cell.
+* **Diverse Algorithm Suite:**
+    * **Uninformed Search:** Breadth-First (BFS), Depth-First (DFS), Depth Limited Search, and Iterative Deepening (IDS).
+    * **Informed Search:** Greedy Best-First Search (GBFS) and A* Search (AS).
+    * **Optimization/Other:** Iterative Deepening A* (IDAS) and Backtracking.
+* **Flexible Maze Logic:** Supports grid-based mazes with custom starting coordinates and multiple potential goal locations.
 
-Depth-First Search (DFS)
+---
 
-Greedy Best-First Search (GBFS)
+## 📂 Project Structure
 
-A* Search (AS)
+```text
+├── backend/                # Python search engine & Flask API
+│   ├── maze.py             # Core maze logic and state management
+│   ├── search.py           # CLI entry point for algorithms
+│   ├── server.py           # Flask server for frontend communication
+│   ├── node.py             # Search tree node structures
+│   ├── frontier.py         # Queue/Stack/Priority Queue implementations
+│   └── test/               # Maze configuration files (.txt)
+├── frontend/               # React visualization dashboard
+│   └── src/                # UI components and logic
+└── Assignment1_Report.pdf  # Technical analysis and performance reports
+```
 
-Iterative Deepening A* (IDAS)
+---
 
-Depth Limited Search
+## 🛠️ Setup and Installation
 
-Backtracking
+### 1. Backend Setup (Python)
+Navigate to the backend directory and install the required dependencies:
 
-Maze Support: Capable of handling various maze configurations with defined start points and multiple goal locations.
-
-Project Structure
-backend/: Contains the Python implementation of search algorithms and server logic.
-
-maze.py: Core logic for maze representation and state management.
-
-search.py: Command-line interface for running individual search methods.
-
-server.py: Flask-based server to communicate with the frontend.
-
-node.py & frontier.py: Data structures used by search algorithms.
-
-frontend/: A modern web interface built with React.
-
-Assignment1_Report.pdf: Detailed documentation and analysis of the search algorithms used.
-
-Setup and Installation
-Backend Setup
-Navigate to the backend directory.
-
-Install dependencies (if specified in a virtual environment):
-
-Bash
+```bash
+cd backend
 pip install flask flask-cors
-Run the server:
-
-Bash
+# Run the API server
 python server.py
-Frontend Setup
-Navigate to the frontend directory.
+```
 
-Install dependencies:
+### 2. Frontend Setup (React)
+Open a new terminal, navigate to the frontend directory, and start the development server:
 
-Bash
+```bash
+cd frontend
 npm install
-Start the development server:
-
-Bash
 npm run dev
-Usage
-Web Interface
-Access the dashboard via the frontend URL (typically http://localhost:5173) to select search algorithms and visualize the solving process.
+```
 
-Command Line
-You can also run search algorithms directly from the terminal:
+---
 
-Bash
-python search.py <maze_file.txt> <method>
-Example:
+## 💻 Usage
 
-Bash
+### Web Interface
+Once both servers are running, visit [http://localhost:5173](http://localhost:5173).
+1. **Select** a maze configuration from the dropdown.
+2. **Choose** a search algorithm.
+3. **Watch** the "Search" (explored) and "Path" (solution) cells update in real-time.
+
+### Command Line Interface
+Run the search engine directly for raw performance data and path coordinates:
+
+```bash
+python search.py <maze_file_path> <method>
+```
+
+| Method | Algorithm |
+| :--- | :--- |
+| `BFS` | Breadth-First Search |
+| `DFS` | Depth-First Search |
+| `GBFS` | Greedy Best-First Search |
+| `AS` | A* Search |
+| `IDS` | Iterative Deepening Search |
+| `CUS1` | Depth Limited Search |
+| `CUS2` | Backtracking |
+
+**Example:**
+
+```bash
 python search.py test/maze_0.txt BFS
+```
+
+---
+
+## 📝 Technical Report
+For a deep dive into algorithm complexity, time/space performance comparisons, and heuristic evaluations, please refer to the included **[Assignment1_Report.pdf](./Assignment1_Report.pdf)**.
